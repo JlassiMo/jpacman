@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
+import nl.tudelft.jpacman.ui.PlayerStatusPanel.ScoreFormatter;
 
 /**
  * The default JPacMan UI frame. The PacManUI consists of the following
@@ -44,7 +44,7 @@ public class PacManUI extends JFrame {
     /**
      * The panel displaying the player scores.
      */
-    private final ScorePanel scorePanel;
+    private final PlayerStatusPanel playerStatusPanel;
 
     /**
      * The panel displaying the game.
@@ -67,7 +67,7 @@ public class PacManUI extends JFrame {
      */
     public PacManUI(final Game game, final Map<String, Action> buttons,
                     final Map<Integer, Action> keyMappings,
-                    ScoreFormatter scoreFormatter) {
+                    ScoreFormatter scoreFormatter, PlayerStatusPanel.LifeFormatter lifeFormatter) {
         super("JPacman");
         assert game != null;
         assert buttons != null;
@@ -80,17 +80,19 @@ public class PacManUI extends JFrame {
 
         JPanel buttonPanel = new ButtonPanel(buttons, this);
 
-        scorePanel = new ScorePanel(game.getPlayers());
+        playerStatusPanel = new PlayerStatusPanel(game.getPlayers());
         if (scoreFormatter != null) {
-            scorePanel.setScoreFormatter(scoreFormatter);
+            playerStatusPanel.setScoreFormatter(scoreFormatter);
         }
-
+        if (lifeFormatter != null) {
+            playerStatusPanel.setLifeFormatter(lifeFormatter);
+        }
         boardPanel = new BoardPanel(game);
 
         Container contentPanel = getContentPane();
         contentPanel.setLayout(new BorderLayout());
         contentPanel.add(buttonPanel, BorderLayout.SOUTH);
-        contentPanel.add(scorePanel, BorderLayout.NORTH);
+        contentPanel.add(playerStatusPanel, BorderLayout.NORTH);
         contentPanel.add(boardPanel, BorderLayout.CENTER);
 
         pack();
@@ -111,6 +113,6 @@ public class PacManUI extends JFrame {
      */
     private void nextFrame() {
         boardPanel.repaint();
-        scorePanel.refresh();
+        playerStatusPanel.refresh();
     }
 }

@@ -1,11 +1,13 @@
 package nl.tudelft.jpacman.game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.npc.Ghost;
 import nl.tudelft.jpacman.points.PointCalculator;
 
 /**
@@ -111,6 +113,19 @@ public abstract class Game implements LevelObserver {
 
     @Override
     public void levelLost() {
-        stop();
+        List<Ghost> ghosts = new ArrayList<>();
+        Player player = getPlayers().get(0);
+        player.loseLife();
+        if (player.getLives() > 0) {
+            // 10 seconds of invulnerability
+            player.becomeInvulnerable(10000);
+            player.setAlive(true);
+        }
+        if (!player.isAlive()) {
+            // Stop the game if the player has no lives left
+            stop();
+            // Optionally, trigger a "game over" behavior here
+        }
     }
+
 }
