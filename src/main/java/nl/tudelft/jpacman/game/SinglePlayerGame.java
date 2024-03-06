@@ -1,17 +1,16 @@
 package nl.tudelft.jpacman.game;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Player;
-
-import com.google.common.collect.ImmutableList;
 import nl.tudelft.jpacman.points.PointCalculator;
+
+import java.util.List;
 
 /**
  * A game with one player and a single level.
  *
- * @author Jeroen Roosen 
+ * @author Jeroen Roosen
  */
 public class SinglePlayerGame extends Game {
 
@@ -28,12 +27,9 @@ public class SinglePlayerGame extends Game {
     /**
      * Create a new single player game for the provided level and player.
      *
-     * @param player
-     *            The player.
-     * @param level
-     *            The level.
-     * @param pointCalculator
-     *            The way to calculate points upon collisions.
+     * @param player          The player.
+     * @param level           The level.
+     * @param pointCalculator The way to calculate points upon collisions.
      */
     protected SinglePlayerGame(Player player, Level level, PointCalculator pointCalculator) {
         super(pointCalculator);

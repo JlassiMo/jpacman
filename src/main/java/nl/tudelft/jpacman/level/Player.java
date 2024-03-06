@@ -1,25 +1,24 @@
 package nl.tudelft.jpacman.level;
 
-import java.util.Map;
-
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.sprite.AnimatedSprite;
 import nl.tudelft.jpacman.sprite.Sprite;
+
+import java.util.Map;
 
 /**
  * A player operated unit in our game.
  */
 public class Player extends Unit {
 
-    private int score;
     private final Map<Direction, Sprite> sprites;
     private final AnimatedSprite deathSprite;
+    private int score;
     private boolean alive;
     private Unit killer;
-    private int lives; // The number of lives this player has.
-    private boolean isInvulnerable = false;
-    private long invulnerabilityEndTime = 0;
+    private int lives;
+
     protected Player(Map<Direction, Sprite> spriteMap, AnimatedSprite deathAnimation, int initialLives) {
         this.score = 0;
         this.alive = true;
@@ -67,7 +66,6 @@ public class Player extends Unit {
         score += points;
     }
 
-    // New methods for handling lives
     public int getLives() {
         return lives;
     }
@@ -76,9 +74,5 @@ public class Player extends Unit {
         if (lives > 0) {
             lives--;
         }
-    }
-    public void becomeInvulnerable(long duration) {
-        this.isInvulnerable = true;
-        this.invulnerabilityEndTime = System.currentTimeMillis() + duration;
     }
 }

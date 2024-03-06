@@ -1,18 +1,14 @@
 package nl.tudelft.jpacman.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
+import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.ui.PlayerStatusPanel.ScoreFormatter;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-
-import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.ui.PlayerStatusPanel.ScoreFormatter;
 
 /**
  * The default JPacMan UI frame. The PacManUI consists of the following
@@ -25,8 +21,7 @@ import nl.tudelft.jpacman.ui.PlayerStatusPanel.ScoreFormatter;
  * <li>A button panel, containing all buttons provided upon creation.
  * </ul>
  *
- * @author Jeroen Roosen 
- *
+ * @author Jeroen Roosen
  */
 public class PacManUI extends JFrame {
 
@@ -54,16 +49,12 @@ public class PacManUI extends JFrame {
     /**
      * Creates a new UI for a JPacman game.
      *
-     * @param game
-     *            The game to play.
-     * @param buttons
-     *            The map of caption-to-action entries that will appear as
-     *            buttons on the interface.
-     * @param keyMappings
-     *            The map of keyCode-to-action entries that will be added as key
-     *            listeners to the interface.
-     * @param scoreFormatter
-     *            The formatter used to display the current score.
+     * @param game           The game to play.
+     * @param buttons        The map of caption-to-action entries that will appear as
+     *                       buttons on the interface.
+     * @param keyMappings    The map of keyCode-to-action entries that will be added as key
+     *                       listeners to the interface.
+     * @param scoreFormatter The formatter used to display the current score.
      */
     public PacManUI(final Game game, final Map<String, Action> buttons,
                     final Map<Integer, Action> keyMappings,

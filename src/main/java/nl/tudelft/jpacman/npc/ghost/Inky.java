@@ -24,7 +24,7 @@ import java.util.*;
  * affects Speedy. When Pac-Man is moving or facing up, the spot Inky uses to
  * draw the line is two squares above and left of Pac-Man.
  * <p>
- * Source: http://strategywiki.org/wiki/Pac-Man/Getting_Started
+ * Source: <a href="http://strategywiki.org/wiki/Pac-Man/Getting_Started">...</a>
  * </p>
  *
  * @author Jeroen Roosen

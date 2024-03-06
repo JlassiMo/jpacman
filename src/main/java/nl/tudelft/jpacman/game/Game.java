@@ -1,19 +1,17 @@
 package nl.tudelft.jpacman.game;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.npc.Ghost;
 import nl.tudelft.jpacman.points.PointCalculator;
+
+import java.util.List;
 
 /**
  * A basic implementation of a Pac-Man game.
  *
- * @author Jeroen Roosen 
+ * @author Jeroen Roosen
  */
 public abstract class Game implements LevelObserver {
 
@@ -36,8 +34,7 @@ public abstract class Game implements LevelObserver {
     /**
      * Creates a new game.
      *
-     * @param pointCalculator
-     *             The way to calculate points upon collisions.
+     * @param pointCalculator The way to calculate points upon collisions.
      */
     protected Game(PointCalculator pointCalculator) {
         this.pointCalculator = pointCalculator;
@@ -93,10 +90,8 @@ public abstract class Game implements LevelObserver {
     /**
      * Moves the specified player one square in the given direction.
      *
-     * @param player
-     *            The player to move.
-     * @param direction
-     *            The direction to move in.
+     * @param player    The player to move.
+     * @param direction The direction to move in.
      */
     public void move(Player player, Direction direction) {
         if (isInProgress()) {
@@ -113,19 +108,14 @@ public abstract class Game implements LevelObserver {
 
     @Override
     public void levelLost() {
-        List<Ghost> ghosts = new ArrayList<>();
         Player player = getPlayers().get(0);
         player.loseLife();
         if (player.getLives() > 0) {
-            // 10 seconds of invulnerability
-            player.becomeInvulnerable(10000);
             player.setAlive(true);
         }
         if (!player.isAlive()) {
             // Stop the game if the player has no lives left
             stop();
-            // Optionally, trigger a "game over" behavior here
         }
     }
-
 }

@@ -3,7 +3,7 @@ package nl.tudelft.jpacman.npc.ghost;
 /**
  * A list of supported ghost colors.
  *
- * @author Jeroen Roosen 
+ * @author Jeroen Roosen
  */
 public enum GhostColor {
 

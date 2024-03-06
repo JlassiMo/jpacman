@@ -1,16 +1,5 @@
 package nl.tudelft.jpacman.level;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
@@ -21,13 +10,19 @@ import nl.tudelft.jpacman.npc.ghost.Clyde;
 import nl.tudelft.jpacman.npc.ghost.Inky;
 import nl.tudelft.jpacman.npc.ghost.Pinky;
 
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import static nl.tudelft.jpacman.npc.ghost.Navigation.findUnitInBoard;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
  * AIs on it.
  *
- * @author Jeroen Roosen 
+ * @author Jeroen Roosen
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public class Level {
@@ -52,50 +47,43 @@ public class Level {
      * The NPCs of this level and, if they are running, their schedules.
      */
     private final Map<Ghost, ScheduledExecutorService> npcs;
-
+    /**
+     * The squares from which players can start this game.
+     */
+    private final List<Square> startSquares;
+    /**
+     * The squares from which ghost can start this game.
+     */
+    private final List<Square> ghostPositions;
+    /**
+     * The players on this level.
+     */
+    private final List<Player> players;
+    /**
+     * The table of possible collisions between units.
+     */
+    private final CollisionMap collisions;
+    /**
+     * The objects observing this level.
+     */
+    private final Set<LevelObserver> observers;
     /**
      * <code>true</code> iff this level is currently in progress, i.e. players
      * and NPCs can move.
      */
     private boolean inProgress;
-
-    /**
-     * The squares from which players can start this game.
-     */
-    private final List<Square> startSquares;
-    private final List<Square> ghostPositions;
-
     /**
      * The start current selected starting square.
      */
     private int startSquareIndex;
 
     /**
-     * The players on this level.
-     */
-    private final List<Player> players;
-
-    /**
-     * The table of possible collisions between units.
-     */
-    private final CollisionMap collisions;
-
-    /**
-     * The objects observing this level.
-     */
-    private final Set<LevelObserver> observers;
-
-    /**
      * Creates a new level for the board.
      *
-     * @param board
-     *            The board for the level.
-     * @param ghosts
-     *            The ghosts on the board.
-     * @param startPositions
-     *            The squares on which players start on this board.
-     * @param collisionMap
-     *            The collection of collisions that should be handled.
+     * @param board          The board for the level.
+     * @param ghosts         The ghosts on the board.
+     * @param startPositions The squares on which players start on this board.
+     * @param collisionMap   The collection of collisions that should be handled.
      */
     public Level(Board board, List<Ghost> ghosts, List<Square> startPositions,
                  CollisionMap collisionMap, List<Square> ghostPositions) {
@@ -120,21 +108,10 @@ public class Level {
     /**
      * Adds an observer that will be notified when the level is won or lost.
      *
-     * @param observer
-     *            The observer that will be notified.
+     * @param observer The observer that will be notified.
      */
     public void addObserver(LevelObserver observer) {
         observers.add(observer);
-    }
-
-    /**
-     * Removes an observer if it was listed.
-     *
-     * @param observer
-     *            The observer to be removed.
-     */
-    public void removeObserver(LevelObserver observer) {
-        observers.remove(observer);
     }
 
     /**
@@ -142,8 +119,7 @@ public class Level {
      * player can only be registered once, registering a player again will have
      * no effect.
      *
-     * @param player
-     *            The player to register.
+     * @param player The player to register.
      */
     public void registerPlayer(Player player) {
         assert player != null;
@@ -172,10 +148,8 @@ public class Level {
      * Moves the unit into the given direction if possible and handles all
      * collisions.
      *
-     * @param unit
-     *            The unit to move.
-     * @param direction
-     *            The direction to move the unit in.
+     * @param unit      The unit to move.
+     * @param direction The direction to move the unit in.
      */
     public void move(Unit unit, Direction direction) {
         assert unit != null;
@@ -276,10 +250,10 @@ public class Level {
                 observer.levelLost();
                 assert ghostPositions != null;
                 // Rest ghosts to starting position.
-                findUnitInBoard(Blinky.class, getBoard()).occupy(ghostPositions.get(0));
-                findUnitInBoard(Clyde.class, getBoard()).occupy(ghostPositions.get(1));
-                findUnitInBoard(Inky.class, getBoard()).occupy(ghostPositions.get(2));
-                findUnitInBoard(Pinky.class, getBoard()).occupy(ghostPositions.get(3));
+                Objects.requireNonNull(findUnitInBoard(Blinky.class, getBoard())).occupy(ghostPositions.get(0));
+                Objects.requireNonNull(findUnitInBoard(Clyde.class, getBoard())).occupy(ghostPositions.get(1));
+                Objects.requireNonNull(findUnitInBoard(Inky.class, getBoard())).occupy(ghostPositions.get(2));
+                Objects.requireNonNull(findUnitInBoard(Pinky.class, getBoard())).occupy(ghostPositions.get(3));
             }
         }
         if (remainingPellets() == 0) {
@@ -294,7 +268,7 @@ public class Level {
      * is alive.
      *
      * @return <code>true</code> if at least one of the registered players is
-     *         alive.
+     * alive.
      */
     public boolean isAnyPlayerAlive() {
         for (Player player : players) {
@@ -328,6 +302,26 @@ public class Level {
 
 
     /**
+     * An observer that will be notified when the level is won or lost.
+     *
+     * @author Jeroen Roosen
+     */
+    public interface LevelObserver {
+
+        /**
+         * The level has been won. Typically the level should be stopped when
+         * this event is received.
+         */
+        void levelWon();
+
+        /**
+         * The level has been lost. Typically the level should be stopped when
+         * this event is received.
+         */
+        void levelLost();
+    }
+
+    /**
      * A task that moves an NPC and reschedules itself after it finished.
      *
      * @author Jeroen Roosen
@@ -347,10 +341,8 @@ public class Level {
         /**
          * Creates a new task.
          *
-         * @param service
-         *            The service that executes the task.
-         * @param npc
-         *            The NPC to move.
+         * @param service The service that executes the task.
+         * @param npc     The NPC to move.
          */
         NpcMoveTask(ScheduledExecutorService service, Ghost npc) {
             this.service = service;
@@ -366,25 +358,5 @@ public class Level {
             long interval = npc.getInterval();
             service.schedule(this, interval, TimeUnit.MILLISECONDS);
         }
-    }
-
-    /**
-     * An observer that will be notified when the level is won or lost.
-     *
-     * @author Jeroen Roosen
-     */
-    public interface LevelObserver {
-
-        /**
-         * The level has been won. Typically the level should be stopped when
-         * this event is received.
-         */
-        void levelWon();
-
-        /**
-         * The level has been lost. Typically the level should be stopped when
-         * this event is received.
-         */
-        void levelLost();
     }
 }

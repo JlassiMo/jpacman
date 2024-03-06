@@ -25,7 +25,7 @@ public class PlayerFactory {
     }
 
     /**
-     * Creates a new player with the classic Pac-Man sprites.
+     * Creates a new player with the classic Pac-Man sprites  and 3 lives.
      *
      * @return A new player.
      */

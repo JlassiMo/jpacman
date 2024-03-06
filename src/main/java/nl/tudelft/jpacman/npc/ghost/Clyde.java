@@ -24,14 +24,14 @@ import java.util.*;
  * </p>
  * <p>
  * <b>AI:</b> Clyde has two basic AIs, one for when he's far from Pac-Man, and
- * one for when he is near to Pac-Man. 
+ * one for when he is near to Pac-Man.
  * When Clyde is far away from Pac-Man (beyond eight grid spaces),
  * Clyde behaves very much like Blinky, trying to move to Pac-Man's exact
  * location. However, when Clyde gets within eight grid spaces of Pac-Man, he
  * automatically changes his behavior and runs away.
  * </p>
  * <p>
- * Source: http://strategywiki.org/wiki/Pac-Man/Getting_Started
+ * Source: <a href="http://strategywiki.org/wiki/Pac-Man/Getting_Started">...</a>
  * </p>
  *
  * @author Jeroen Roosen
@@ -80,7 +80,7 @@ public class Clyde extends Ghost {
      *
      * <p>
      * Clyde has two basic AIs, one for when he's far from Pac-Man, and one for
-     * when he is near to Pac-Man. 
+     * when he is near to Pac-Man.
      * When Clyde is far away from Pac-Man (beyond eight grid spaces),
      * Clyde behaves very much like Blinky, trying to move to Pac-Man's exact
      * location. However, when Clyde gets within eight grid spaces of Pac-Man,

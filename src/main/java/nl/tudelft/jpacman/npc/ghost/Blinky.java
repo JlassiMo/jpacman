@@ -32,11 +32,10 @@ import java.util.*;
  * towards Pac-Man before he moves to the left.
  * </p>
  * <p>
- * Source: http://strategywiki.org/wiki/Pac-Man/Getting_Started
+ * Source: <a href="http://strategywiki.org/wiki/Pac-Man/Getting_Started">...</a>
  * </p>
  *
- * @author Jeroen Roosen 
- *
+ * @author Jeroen Roosen
  */
 public class Blinky extends Ghost {
 
@@ -54,8 +53,7 @@ public class Blinky extends Ghost {
     /**
      * Creates a new "Blinky", a.k.a. "Shadow".
      *
-     * @param spriteMap
-     *            The sprites for this ghost.
+     * @param spriteMap The sprites for this ghost.
      */
     // TODO Blinky should speed up when there are a few pellets left, but he
     // has no way to find out how many there are.

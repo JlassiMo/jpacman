@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Creates and launches the JPacMan UI.
- * 
+ *
  * @author Jeroen Roosen
  */
 @SuppressWarnings("PMD.TooManyMethods")
@@ -187,7 +187,6 @@ public class Launcher {
     /**
      * Disposes of the UI. For more information see
      * {@link javax.swing.JFrame#dispose()}.
-     *
      * Precondition: The game was launched first.
      */
     public void dispose() {

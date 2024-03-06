@@ -40,11 +40,10 @@ import java.util.*;
  * developed the Pac-Man World series and declared Pinky to be female.</i>
  * </p>
  * <p>
- * Source: http://strategywiki.org/wiki/Pac-Man/Getting_Started
+ * Source: <a href="http://strategywiki.org/wiki/Pac-Man/Getting_Started">...</a>
  * </p>
  *
- * @author Jeroen Roosen 
- *
+ * @author Jeroen Roosen
  */
 public class Pinky extends Ghost {
 
@@ -64,8 +63,7 @@ public class Pinky extends Ghost {
     /**
      * Creates a new "Pinky", a.k.a. "Speedy".
      *
-     * @param spriteMap
-     *            The sprites for this ghost.
+     * @param spriteMap The sprites for this ghost.
      */
     public Pinky(Map<Direction, Sprite> spriteMap) {
         super(spriteMap, MOVE_INTERVAL, INTERVAL_VARIATION);
