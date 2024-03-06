@@ -5,7 +5,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
 /**
  * A unit that can be placed on a {@link Square}.
  *
- * @author Jeroen Roosen 
+ * @author Jeroen Roosen
  */
 public abstract class Unit {
 
@@ -28,6 +28,7 @@ public abstract class Unit {
 
     /**
      * Sets this unit to face the new direction.
+     *
      * @param newDirection The new direction this unit is facing.
      */
     public void setDirection(Direction newDirection) {
@@ -36,6 +37,7 @@ public abstract class Unit {
 
     /**
      * Returns the current direction this unit is facing.
+     *
      * @return The current direction this unit is facing.
      */
     public Direction getDirection() {
@@ -64,11 +66,10 @@ public abstract class Unit {
     }
 
     /**
-     * Occupies the target square iff this unit is allowed to as decided by
+     * Occupies the target square if this unit is allowed to as decided by
      * {@link Square#isAccessibleTo(Unit)}.
      *
-     * @param target
-     *            The square to occupy.
+     * @param target The square to occupy.
      */
     public void occupy(Square target) {
         assert target != null;
@@ -97,8 +98,8 @@ public abstract class Unit {
      * one of its occupiers.
      *
      * @return <code>true</code> if the square this unit is occupying has this
-     *         unit listed as one of its occupiers, or if this unit is currently
-     *         not occupying any square.
+     * unit listed as one of its occupiers, or if this unit is currently
+     * not occupying any square.
      */
     protected boolean invariant() {
         return square == null || square.getOccupants().contains(this);

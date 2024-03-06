@@ -16,6 +16,12 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.Ghost;
+import nl.tudelft.jpacman.npc.ghost.Blinky;
+import nl.tudelft.jpacman.npc.ghost.Clyde;
+import nl.tudelft.jpacman.npc.ghost.Inky;
+import nl.tudelft.jpacman.npc.ghost.Pinky;
+
+import static nl.tudelft.jpacman.npc.ghost.Navigation.findUnitInBoard;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -57,6 +63,7 @@ public class Level {
      * The squares from which players can start this game.
      */
     private final List<Square> startSquares;
+    private final List<Square> ghostPositions;
 
     /**
      * The start current selected starting square.
@@ -91,7 +98,7 @@ public class Level {
      *            The collection of collisions that should be handled.
      */
     public Level(Board board, List<Ghost> ghosts, List<Square> startPositions,
-                 CollisionMap collisionMap) {
+                 CollisionMap collisionMap, List<Square> ghostPositions) {
         assert board != null;
         assert ghosts != null;
         assert startPositions != null;
@@ -103,6 +110,7 @@ public class Level {
             npcs.put(ghost, null);
         }
         this.startSquares = startPositions;
+        this.ghostPositions = ghostPositions;
         this.startSquareIndex = 0;
         this.players = new ArrayList<>();
         this.collisions = collisionMap;
@@ -266,6 +274,12 @@ public class Level {
         if (!isAnyPlayerAlive()) {
             for (LevelObserver observer : observers) {
                 observer.levelLost();
+                assert ghostPositions != null;
+                // Rest ghosts to starting position.
+                findUnitInBoard(Blinky.class, getBoard()).occupy(ghostPositions.get(0));
+                findUnitInBoard(Clyde.class, getBoard()).occupy(ghostPositions.get(1));
+                findUnitInBoard(Inky.class, getBoard()).occupy(ghostPositions.get(2));
+                findUnitInBoard(Pinky.class, getBoard()).occupy(ghostPositions.get(3));
             }
         }
         if (remainingPellets() == 0) {

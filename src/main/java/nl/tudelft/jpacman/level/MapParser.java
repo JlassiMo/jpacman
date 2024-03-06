@@ -69,19 +69,20 @@ public class MapParser {
 
         List<Ghost> ghosts = new ArrayList<>();
         List<Square> startPositions = new ArrayList<>();
+        List<Square> ghostPositions = new ArrayList<>();
 
-        makeGrid(map, width, height, grid, ghosts, startPositions);
+        makeGrid(map, width, height, grid, ghosts, startPositions, ghostPositions);
 
         Board board = boardCreator.createBoard(grid);
-        return levelCreator.createLevel(board, ghosts, startPositions);
+        return levelCreator.createLevel(board, ghosts, startPositions, ghostPositions);
     }
 
     private void makeGrid(char[][] map, int width, int height,
-                          Square[][] grid, List<Ghost> ghosts, List<Square> startPositions) {
+                          Square[][] grid, List<Ghost> ghosts, List<Square> startPositions, List<Square> ghostPositions) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 char c = map[x][y];
-                addSquare(grid, ghosts, startPositions, x, y, c);
+                addSquare(grid, ghosts, startPositions, ghostPositions, x, y, c);
             }
         }
     }
@@ -107,7 +108,7 @@ public class MapParser {
      *            Character describing the square type.
      */
     protected void addSquare(Square[][] grid, List<Ghost> ghosts,
-                             List<Square> startPositions, int x, int y, char c) {
+                             List<Square> startPositions, List<Square> ghostPositions, int x, int y, char c) {
         switch (c) {
             case ' ':
                 grid[x][y] = boardCreator.createGround();
@@ -122,12 +123,13 @@ public class MapParser {
                 break;
             case 'G':
                 Square ghostSquare = makeGhostSquare(ghosts, levelCreator.createGhost());
+                ghostPositions.add(ghostSquare);
                 grid[x][y] = ghostSquare;
                 break;
             case 'P':
                 Square playerSquare = boardCreator.createGround();
                 grid[x][y] = playerSquare;
-                startPositions.add(playerSquare);
+               startPositions.add(playerSquare);
                 break;
             default:
                 throw new PacmanConfigurationException("Invalid character at "
